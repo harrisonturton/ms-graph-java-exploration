@@ -40,11 +40,7 @@ public class TeamsClientBuilder {
     private String clientSecret;
     private String tenantId;
 
-    public TeamsClientBuilder(
-        @Value("${teams.client.client.id}") String clientId,
-        @Value("${teams.client.client.secret}") String clientSecret,
-        @Value("${teams.client.tenant.id}") String tenantId
-    ) {
+    public TeamsClientBuilder(String clientId, String clientSecret, String tenantId) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.tenantId = tenantId;
