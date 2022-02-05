@@ -56,12 +56,14 @@ public class TeamsClientBuilder {
      *   - https://docs.microsoft.com/en-us/azure/active-directory/develop/scenario-web-app-call-api-overview
      */
     GraphServiceClient<Request> fromClientSecretCredentials() {
+        // The .default scope refers to the permissions we request in the app registration portal
+        var scopes = List.of("https://graph.microsoft.com/.default");
         var tokenCredential = new ClientSecretCredentialBuilder()
             .clientId(clientId)
             .clientSecret(clientSecret)
             .tenantId(tenantId)
             .build();
-        var authProvider = new TokenCredentialAuthProvider(SCOPES, tokenCredential);
+        var authProvider = new TokenCredentialAuthProvider(scopes, tokenCredential);
         return GraphServiceClient.builder().authenticationProvider(authProvider).buildClient();
     }
 
@@ -77,6 +79,7 @@ public class TeamsClientBuilder {
      *   - https://docs.microsoft.com/en-us/azure/active-directory/develop/scenario-daemon-app-registration
      */
     public GraphServiceClient<Request> fromAuthorizationCodeCredential(String authorizationCode) {
+        // Sends messages as the user
         var authCodeCredential = new AuthorizationCodeCredentialBuilder()
             .clientId(clientId)
             .clientSecret(clientSecret) //required for web apps, do not set for native apps
